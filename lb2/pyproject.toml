@@ -1,0 +1,8 @@
+[project]
+name = "rh-mcp-server"
+version = "0.1.0"
+description = "Copiloto de RH — MCP Server de exemplo (Curso LB2)"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp",
+]
