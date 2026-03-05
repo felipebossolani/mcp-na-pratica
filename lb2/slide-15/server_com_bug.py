@@ -1,34 +1,27 @@
 """
-Slide 15 — Erros comuns: print() quebra o protocolo
+Slide 15 — Erros comuns: retorno inválido quebra o protocolo
 MCP Course - LB2 - Cap 2.3
 
 DEMO AO VIVO:
 1. Rodar este arquivo: python server_com_bug.py
 2. Abrir o Inspector: npx @modelcontextprotocol/inspector
-3. Inspector FALHA — o print() contaminou o stdout
-4. Corrigir: trocar print() por print(..., file=sys.stderr)
-5. Rodar server_corrigido.py — funciona!
+3. Executar a tool ping → ERRO
+4. Corrigir: ver server_corrigido.py
 """
-
-# ============================================================
-# VERSÃO COM BUG — print() no stdout quebra o JSON-RPC
-# ============================================================
 
 from mcp.server.fastmcp import FastMCP
 
 server = FastMCP("rh-copilot")
 
-# ⚠️ ESSE PRINT QUEBRA TUDO!
-# stdout é o canal do JSON-RPC no transport stdio.
-# Qualquer coisa impressa aqui vira lixo no protocolo.
-print("debug: server iniciando...")  # ← BUG!
-
 
 @server.tool()
 def ping() -> str:
     """Verifica se o server está ativo"""
-    print("debug: ping chamado")  # ← BUG!
-    return "pong"
+    # ⚠️ BUG: retorna um tipo que o protocolo não consegue serializar
+    # MCP espera str, dict, ou lista — não um objeto arbitrário
+    class Resultado:
+        status = "ok"
+    return Resultado()  # ← BUG! Objeto não-serializável
 
 
 if __name__ == "__main__":

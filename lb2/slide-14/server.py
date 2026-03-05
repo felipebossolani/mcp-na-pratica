@@ -6,16 +6,12 @@ Demonstra que o mesmo server roda em stdio ou HTTP
 mudando apenas o argumento de server.run().
 
 Para testar:
-  stdio:   python server_stdio.py
-  HTTP:    python server_http.py
+  stdio:   python server.py
+  HTTP:    python server.py --http
 """
-
-# ---- Este arquivo demonstra ambas as opções ----
-# Na prática, é o MESMO server.py com uma linha diferente no final.
 
 import json
 import sys
-from datetime import datetime
 
 from mcp.server.fastmcp import FastMCP
 
@@ -62,13 +58,13 @@ if __name__ == "__main__":
     # ============================================================
     # OPÇÃO 2: Streamable HTTP (produção, múltiplos clients)
     # ============================================================
-    # server.run(transport="sse", host="0.0.0.0", port=8000)
+    # server.run(transport="streamable-http", host="0.0.0.0", port=8000)
 
     # ============================================================
     # Detecta argumento de linha de comando pra facilitar a demo
     # ============================================================
     if len(sys.argv) > 1 and sys.argv[1] == "--http":
-        print("Iniciando em modo HTTP na porta 8000...", file=sys.stderr)
-        server.run(transport="sse", host="0.0.0.0", port=8000)
+        print("Iniciando em modo HTTP (streamable-http)...", file=sys.stderr)
+        server.run(transport="streamable-http")
     else:
         server.run()  # stdio (padrão)
