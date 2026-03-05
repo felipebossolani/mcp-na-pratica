@@ -212,11 +212,82 @@ Ctrl+C.
 
 ---
 
-## Teste 8 — Slide 20 (Auth)
+## Teste 8 — Slide 19 (Claude Desktop)
+
+Esse teste requer o Claude Desktop instalado.
+
+**Passo 1 — Editar o arquivo de config:**
+
+Mac:
+```bash
+code ~/Library/Application\ Support/Claude/claude_desktop_config.json
+```
+
+Windows:
+```bash
+code %APPDATA%/Claude/claude_desktop_config.json
+```
+
+Colar o conteúdo (ajuste o caminho completo para o seu projeto):
+```json
+{
+  "mcpServers": {
+    "rh-copilot": {
+      "command": "/caminho/completo/para/mcp-na-pratica/.venv/bin/python",
+      "args": ["/caminho/completo/para/mcp-na-pratica/lb2/slide-11/server.py"]
+    }
+  }
+}
+```
+
+Use o caminho completo do Python do venv e do server.py. Para descobrir:
+```bash
+cd mcp-na-pratica
+echo "$(pwd)/.venv/bin/python"
+echo "$(pwd)/lb2/slide-11/server.py"
+```
+
+**Passo 2 — Reiniciar o Claude Desktop**
+
+Fechar completamente e abrir novamente.
+
+**Passo 3 — Verificar conexão**
+
+Olhar no canto inferior esquerdo: deve aparecer um ícone de martelo (🔨).
+Clicar no martelo: deve listar 3 tools (aprovar_ferias, criar_solicitacao, enviar_resposta).
+
+**Passo 4 — Testar conversa**
+
+Digitar no chat:
+```
+Aprove as férias do colaborador 1, de 1 a 15 de março de 2026.
+```
+
+**Resultado esperado:**
+- Claude identifica que precisa usar a tool aprovar_ferias
+- Mostra os parâmetros que vai enviar (consent)
+- Você confirma
+- Resultado: férias aprovadas, protocolo gerado
+- Claude monta uma resposta natural com os dados
+
+**Passo 5 — Testar resource (opcional)**
+
+Digitar:
+```
+Qual o saldo de férias do colaborador 1?
+```
+
+Claude deve consultar o resource e responder com saldo de 15 dias.
+
+Depois de testar, pode remover a config ou deixar pra demo na gravação.
+
+---
+
+## Teste 9 — Slide 20 (Auth)
 
 Esses testes não precisam do Inspector.
 
-**Teste 8a — Gerar e validar tokens:**
+**Teste 9a — Gerar e validar tokens:**
 ```bash
 python lb3/slide-20/auth.py
 ```
@@ -243,7 +314,7 @@ Erro (esperado): Token inválido: ...
 Erro (esperado): Token não fornecido. ...
 ```
 
-**Teste 8b — 3 cenários de auth:**
+**Teste 9b — 3 cenários de auth:**
 ```bash
 python lb3/slide-20/demo_auth.py
 ```
@@ -278,4 +349,5 @@ BÔNUS: Wildcard (tools:*)
 - [ ] Slide 11: 3 tools + 3 resources + 2 prompts funcionando
 - [ ] Slide 14: --http mostra mensagem, sem flag roda stdio
 - [ ] Slide 15: server_com_bug conecta mas ping dá erro, server_corrigido retorna "pong"
+- [ ] Slide 19: Claude Desktop conecta, martelo aparece, aprovar_ferias funciona via conversa
 - [ ] Slide 20: auth.py gera tokens, demo_auth.py mostra 401 → 403 → 200
